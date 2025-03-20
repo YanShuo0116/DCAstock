@@ -349,4 +349,41 @@ h1 {
     .performance-metrics {
         grid-template-columns: 1fr;
     }
+}
+
+.list-unstyled {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.list-unstyled li {
+    margin-bottom: 0.5rem;
+    padding-left: 0;
+}
+
+.features-list {
+    margin: 1.5rem 0;
+}
+
+.features-list li {
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+    color: var(--text-color);
+}
+
+.check-mark {
+    color: #28a745;
+    margin-right: 0.5rem;
+    font-weight: bold;
+}
+
+.description {
+    color: var(--text-color);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.small.text-muted {
+    color: rgba(255, 255, 255, 0.7);
 } 
