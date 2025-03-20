@@ -1,0 +1,352 @@
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #2ecc71;
+    --background-color: #1a2433;
+    --card-bg-color: rgba(255, 255, 255, 0.1);
+    --text-color: #ecf0f1;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    --hover-color: rgba(255, 255, 255, 0.15);
+    --positive-color: #2ecc71;
+    --negative-color: #e74c3c;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem 0;
+    position: relative;
+}
+
+h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, #3498db, #2ecc71);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-box {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    border: none;
+    border-radius: 50px;
+    background: var(--card-bg-color);
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--secondary-color);
+}
+
+.stock-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.stock-card {
+    background: var(--card-bg-color);
+    border-radius: 20px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+}
+
+.stock-card:hover {
+    transform: translateY(-5px);
+    background: var(--hover-color);
+    box-shadow: 0 8px 20px var(--shadow-color);
+}
+
+.stock-card img {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1rem;
+    border-radius: 50%;
+}
+
+.stock-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.stock-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.stock-details p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+}
+
+.price-change {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.price-change.positive {
+    background: rgba(46, 204, 113, 0.2);
+    color: var(--positive-color);
+}
+
+.price-change.negative {
+    background: rgba(231, 76, 60, 0.2);
+    color: var(--negative-color);
+}
+
+/* 回測頁面樣式 */
+.hidden {
+    display: none;
+}
+
+.backtest-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: var(--card-bg-color);
+    border-radius: 20px;
+}
+
+.back-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 50px;
+    background: var(--secondary-color);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    background: #2980b9;
+    transform: translateX(-3px);
+}
+
+.backtest-content {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+}
+
+.backtest-params {
+    background: var(--card-bg-color);
+    padding: 1.5rem;
+    border-radius: 20px;
+    height: fit-content;
+}
+
+.param-group {
+    margin-bottom: 1.5rem;
+}
+
+.param-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.param-group input,
+.param-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-color);
+}
+
+.calculate-button {
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 10px;
+    background: var(--accent-color);
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.calculate-button:hover {
+    background: #27ae60;
+    transform: translateY(-2px);
+}
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.7);
+    transform: scale(0);
+    animation: ripple 0.6s linear;
+    pointer-events: none;
+}
+
+@keyframes ripple {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+.investment-days {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    background: var(--card-bg-color);
+    transition: all 0.3s ease;
+}
+
+.checkbox-label:hover {
+    background: var(--hover-color);
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent-color);
+}
+
+.performance-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.metric-card.large {
+    background: var(--card-bg-color);
+    padding: 1.5rem;
+    border-radius: 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.metric-card.large:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.metric-card.large h4 {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.metric-card.large p {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+.metric-card.large .sub-metric {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.metric-card.large .sub-metric .label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.metric-card.large .sub-metric span:last-child {
+    font-weight: 500;
+    margin-left: 0.25rem;
+}
+
+.positive {
+    color: var(--positive-color) !important;
+}
+
+.negative {
+    color: var(--negative-color) !important;
+}
+
+.chart-container {
+    background: var(--card-bg-color);
+    padding: 1.5rem;
+    border-radius: 20px;
+    height: 400px;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .backtest-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .stock-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .container {
+        padding: 1rem;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .performance-metrics {
+        grid-template-columns: 1fr;
+    }
+} 

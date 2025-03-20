@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHUO DCA STOCK</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- 主頁面 -->
+        <div id="mainPage">
+            <header>
+                <h1>美股定期定額投資回測</h1>
+                <div class="text-center mb-4">
+                    <p class="lead">這是一個幫助您分析美股定期定額投資策略的工具。您可以：</p>
+                    <ul class="list-unstyled">
+                        <li>✓ 選擇知名美股及ETF進行回測</li>
+                        <li>✓ 自訂投資起始日期、金額與頻率</li>
+                        <li>✓ 分析投資報酬率與風險指標</li>
+                        <li>✓ 數據每日自動更新</li>
+                    </ul>
+                    <p class="small text-muted mt-2">數據來源：Yahoo Finance</p>
+                </div>
+                <div class="search-box">
+                    <input type="text" placeholder="搜尋股票..." id="searchInput">
+                </div>
+            </header>
+
+            <div class="stock-grid" id="stockGrid">
+                <!-- 股票卡片將由 JavaScript 動態生成 -->
+            </div>
+        </div>
+
+        <!-- 回測頁面 -->
+        <div id="backtestPage" class="hidden">
+            <div class="backtest-header">
+                <button class="back-button" onclick="showMainPage()">← 返回</button>
+                <div class="stock-info">
+                    <img id="selectedStockIcon" src="" alt="Stock Icon">
+                    <div class="stock-details">
+                        <h2 id="selectedStockName"></h2>
+                        <p id="selectedStockDescription"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="backtest-content">
+                <div class="backtest-params">
+                    <h3>回測參數設定</h3>
+                    <div class="param-group">
+                        <label>投資起始日期</label>
+                        <input type="date" id="startDate">
+                    </div>
+                    <div class="param-group">
+                        <label>投資結束日期</label>
+                        <input type="date" id="endDate">
+                    </div>
+                    <div class="param-group">
+                        <label>每月投資金額 (USD)</label>
+                        <input type="number" id="monthlyInvestment" value="1000">
+                    </div>
+                    <div class="param-group">
+                        <label>每月投資日期（可複選）</label>
+                        <div class="investment-days">
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="1" name="investmentDay"> 1日
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="5" name="investmentDay"> 5日
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="10" name="investmentDay"> 10日
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="15" name="investmentDay"> 15日
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="20" name="investmentDay"> 20日
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="25" name="investmentDay"> 25日
+                            </label>
+                        </div>
+                    </div>
+                    <div class="param-group">
+                        <label>休市處理方式</label>
+                        <select id="holidayHandling">
+                            <option value="next">順延至下一個交易日</option>
+                            <option value="skip">跳過該次投資</option>
+                        </select>
+                    </div>
+                    <div class="param-group">
+                        <label>手續費率 (%)</label>
+                        <input type="number" id="feeRate" value="0.1" step="0.1">
+                    </div>
+                    <button id="calculateBtn" class="calculate-button">開始回測</button>
+                </div>
+
+                <div class="results-section" id="resultsSection">
+                    <div class="performance-metrics">
+                        <div class="metric-card large">
+                            <h4>總投資金額</h4>
+                            <p id="totalInvestment">$0</p>
+                            <p class="sub-metric">
+                                <span class="label">手續費支出：</span>
+                                <span id="totalFees">$0</span>
+                            </p>
+                        </div>
+                        <div class="metric-card large">
+                            <h4>目前市值</h4>
+                            <p id="currentValue">$0</p>
+                            <p class="sub-metric">
+                                <span class="label">損益金額：</span>
+                                <span id="totalProfitLoss">$0</span>
+                            </p>
+                        </div>
+                        <div class="metric-card large">
+                            <h4>投資報酬率</h4>
+                            <p id="totalReturn">0%</p>
+                            <p class="sub-metric">
+                                <span class="label">年化報酬：</span>
+                                <span id="annualReturn">0%</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
