@@ -341,19 +341,7 @@ async function calculatePortfolioPerformance() {
         const dayOfMonth = currentDate.getDate();
 
         // 檢查是否需要在這一天進行投資
-        if (selectedDays.includes(dayOfMonth) || 
-            (holidayHandling === 'next' && 
-             lastProcessedMonth !== currentMonth && 
-             selectedDays.some(day => day < dayOfMonth))) {
-            
-            // 如果是順延模式，確保這個月還沒有處理過這個投資日
-            if (holidayHandling === 'next') {
-                const dayIndex = selectedDays.findIndex(day => day <= dayOfMonth);
-                if (dayIndex === -1 || lastProcessedMonth === currentMonth) {
-                    return;
-                }
-            }
-
+        if (selectedDays.includes(dayOfMonth)) {
             const investment = monthlyInvestment / selectedDays.length; // 平均分配到每個選擇的日期
             const fee = investment * feeRate;
             const actualInvestment = investment - fee;
@@ -375,6 +363,34 @@ async function calculatePortfolioPerformance() {
                 totalShares,
                 currentValue: totalShares * price
             });
+        } else if (holidayHandling === 'next' && 
+                   lastProcessedMonth !== currentMonth && 
+                   selectedDays.some(day => day < dayOfMonth)) {
+            // 如果是順延模式，且這個月還沒有處理過投資
+            const dayIndex = selectedDays.findIndex(day => day <= dayOfMonth);
+            if (dayIndex !== -1) {
+                const investment = monthlyInvestment / selectedDays.length; // 平均分配到每個選擇的日期
+                const fee = investment * feeRate;
+                const actualInvestment = investment - fee;
+                const shares = actualInvestment / price;
+
+                totalInvestment += investment;
+                totalFees += fee;
+                totalShares += shares;
+                lastProcessedMonth = currentMonth;
+
+                monthlyResults.push({
+                    date,
+                    price,
+                    investment,
+                    shares,
+                    fee,
+                    totalInvestment,
+                    totalFees,
+                    totalShares,
+                    currentValue: totalShares * price
+                });
+            }
         }
     });
 
