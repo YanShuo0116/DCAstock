@@ -518,4 +518,4 @@ document.getElementById('calculateBtn').addEventListener('click', function(e) {
     
     // 執行計算
     calculatePortfolioPerformance();
-}); 
+});
