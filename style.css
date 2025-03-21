@@ -329,61 +329,108 @@ h1 {
 }
 
 /* 響應式設計 */
+/* 手機版優化：螢幕寬度 ≤ 768px */
 @media (max-width: 768px) {
-    .backtest-content {
-        grid-template-columns: 1fr;
+    .container {
+        padding: 1rem 0.5rem;
     }
-    
+
+    h1 {
+        font-size: 1.75rem;
+    }
+
     .stock-grid {
         grid-template-columns: 1fr;
+        gap: 1rem;
     }
-    
-    .container {
+
+    .stock-card {
         padding: 1rem;
     }
-    
-    h1 {
-        font-size: 2rem;
+
+    .stock-card img {
+        width: 40px;
+        height: 40px;
     }
-    
+
+    .stock-card h3 {
+        font-size: 1.25rem;
+    }
+
+    .stock-details p {
+        font-size: 0.8rem;
+    }
+
+    .search-box input {
+        padding: 0.75rem 1rem;
+        max-width: 100%;
+    }
+
+    .backtest-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .backtest-content {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .backtest-params {
+        padding: 1rem;
+    }
+
+    .param-group input,
+    .param-group select {
+        padding: 0.5rem;
+    }
+
+    .calculate-button {
+        font-size: 0.9rem;
+        padding: 0.75rem;
+    }
+
+    .investment-days {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
     .performance-metrics {
         grid-template-columns: 1fr;
     }
+
+    .metric-card.large {
+        margin-bottom: 1rem;
+    }
+
+    .chart-container {
+        height: 300px;
+    }
 }
 
-.list-unstyled {
-    list-style: none;
-    padding-left: 0;
-    margin-left: 0;
-}
+/* 更小的螢幕優化：螢幕寬度 ≤ 480px */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.5rem;
+    }
 
-.list-unstyled li {
-    margin-bottom: 0.5rem;
-    padding-left: 0;
-}
+    .stock-card h3 {
+        font-size: 1.1rem;
+    }
 
-.features-list {
-    margin: 1.5rem 0;
-}
+    .stock-details p {
+        font-size: 0.75rem;
+    }
 
-.features-list li {
-    margin-bottom: 0.75rem;
-    font-size: 1.1rem;
-    color: var(--text-color);
-}
+    .param-group label {
+        font-size: 0.9rem;
+    }
 
-.check-mark {
-    color: #28a745;
-    margin-right: 0.5rem;
-    font-weight: bold;
-}
+    .calculate-button {
+        font-size: 0.8rem;
+    }
 
-.description {
-    color: var(--text-color);
-    font-size: 1.1rem;
-    margin-bottom: 1.5rem;
-}
-
-.small.text-muted {
-    color: rgba(255, 255, 255, 0.7) !important;
+    .investment-days {
+        grid-template-columns: 1fr;
+    }
 }
