@@ -699,21 +699,7 @@
       "key_products": ["Aerospace", "Building Technologies", "Performance Materials"],
       "key_services": ["Engineering", "Manufacturing", "Software"]
     },
-    "BRK.B": {
-      "name": "Berkshire Hathaway Inc.",
-      "chinese_name": "波克夏·海瑟威公司",
-      "icon": "https://logo.clearbit.com/berkshirehathaway.com",
-      "description": "一家多元化的控股公司，擁有保險、鐵路、能源、製造業和零售業等各行各業的子公司。",
-      "sector": "金融",
-      "industry": "多元化金融",
-      "founded": "1839年",
-      "ipo_date": "1980-05-01 (BRK.B)",
-      "headquarters": "內布拉斯加州奧馬哈",
-      "ceo": "Warren Buffett",
-      "employees": "372,000+",
-      "key_products": ["Insurance", "Railroads", "Energy"],
-      "key_services": ["Investment", "Holding Company"]
-    },
+
     "CVX": {
       "name": "Chevron Corporation",
       "chinese_name": "雪佛龍公司",
