@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initializeStockCards();
     initializeDateRange();
     setupSearchFilter();
+    addSmoothScroll();
 });
 
 // 載入公司數據
@@ -295,6 +296,16 @@ async function calculatePortfolioPerformance() {
         return;
     }
 
+    // 在手機版上，滾動到結果區域
+    if (window.innerWidth <= 768) {
+        const resultsSection = document.getElementById('resultsSection');
+        if (resultsSection) {
+            setTimeout(() => {
+                resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 500); // 等待結果顯示後再滾動
+        }
+    }
+
     const startDate = document.getElementById('startDate').value;
     const endDate = document.getElementById('endDate').value;
     const monthlyInvestment = parseFloat(document.getElementById('monthlyInvestment').value);
@@ -452,14 +463,25 @@ function updatePerformanceChart(results) {
         options: {
             responsive: true,
             scales: {
+                x: {
+                    ticks: {
+                        color: '#ffffff' // X 軸標籤變白色
+                    }
+                },
                 y: {
                     beginAtZero: true,
                     ticks: {
+                        color: '#ffffff', // Y 軸標籤變白色
                         callback: value => formatCurrency(value)
                     }
                 }
             },
             plugins: {
+                legend: {
+                    labels: {
+                        color: '#ffffff' // 圖例文字變白色
+                    }
+                },
                 tooltip: {
                     callbacks: {
                         label: context => formatCurrency(context.raw)
@@ -472,6 +494,7 @@ function updatePerformanceChart(results) {
     // 顯示結果區域
     document.getElementById('resultsSection').style.display = 'block';
 }
+
 
 // 格式化貨幣
 function formatCurrency(value) {
@@ -513,4 +536,40 @@ document.getElementById('calculateBtn').addEventListener('click', function(e) {
     
     // 執行計算
     calculatePortfolioPerformance();
+});
+
+// 添加平滑滾動功能
+document.addEventListener('DOMContentLoaded', function() {
+    // 監聽所有按鈕點擊
+    document.querySelectorAll('button').forEach(button => {
+        button.addEventListener('click', function(e) {
+            // 添加漣漪效果
+            const ripple = document.createElement('span');
+            ripple.classList.add('ripple');
+            this.appendChild(ripple);
+            
+            // 設置漣漪位置
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = e.clientX - rect.left - size/2 + 'px';
+            ripple.style.top = e.clientY - rect.top - size/2 + 'px';
+            
+            // 移除漣漪元素
+            ripple.addEventListener('animationend', () => {
+                ripple.remove();
+            });
+        });
+    });
+
+    // 監聽股票卡片懸停
+    document.querySelectorAll('.stock-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px) scale(1.02)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
 }); 
