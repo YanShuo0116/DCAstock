@@ -298,7 +298,6 @@ async function calculatePortfolioPerformance() {
     const startDate = document.getElementById('startDate').value;
     const endDate = document.getElementById('endDate').value;
     const monthlyInvestment = parseFloat(document.getElementById('monthlyInvestment').value);
-    const holidayHandling = document.getElementById('holidayHandling').value;
     const feeRate = parseFloat(document.getElementById('feeRate').value) / 100;
     const company = companiesData[selectedStock];
     
@@ -332,65 +331,61 @@ async function calculatePortfolioPerformance() {
     let totalShares = 0;
     let totalFees = 0;
     let monthlyResults = [];
-    let lastProcessedMonth = '';
+    let currentMonth = '';
+    let pendingDays = [];
 
     // 對每個交易日進行處理
-    tradingDays.forEach(([date, price], index) => {
+    tradingDays.forEach(([date, price]) => {
         const currentDate = new Date(date);
-        const currentMonth = date.substring(0, 7); // YYYY-MM
         const dayOfMonth = currentDate.getDate();
+        const month = date.substring(0, 7); // YYYY-MM
 
-        // 檢查是否需要在這一天進行投資
-        if (selectedDays.includes(dayOfMonth)) {
-            const investment = monthlyInvestment / selectedDays.length; // 平均分配到每個選擇的日期
-            const fee = investment * feeRate;
-            const actualInvestment = investment - fee;
-            const shares = actualInvestment / price;
+        // 檢查是否進入新月份
+        if (month !== currentMonth) {
+            currentMonth = month;
+            pendingDays = [...selectedDays]; // 重置待處理投資日期
+        }
 
-            totalInvestment += investment;
-            totalFees += fee;
-            totalShares += shares;
-            lastProcessedMonth = currentMonth;
+        // 找出當天需要投資的日期（即選定日期在或早於當天且尚未投資）
+        const investDays = pendingDays.filter(day => day <= dayOfMonth);
 
+        if (investDays.length > 0) {
+            let dailyInvestment = 0;
+            let dailyShares = 0;
+            let dailyFees = 0;
+
+            // 為每個應投資的日期計算投資金額
+            investDays.forEach(day => {
+                const investment = monthlyInvestment / selectedDays.length;
+                const fee = investment * feeRate;
+                const actualInvestment = investment - fee;
+                const shares = actualInvestment / price;
+
+                dailyInvestment += investment;
+                dailyFees += fee;
+                dailyShares += shares;
+            });
+
+            // 更新總計
+            totalInvestment += dailyInvestment;
+            totalFees += dailyFees;
+            totalShares += dailyShares;
+
+            // 記錄當天結果
             monthlyResults.push({
                 date,
                 price,
-                investment,
-                shares,
-                fee,
+                dailyInvestment,
+                dailyShares,
+                dailyFees,
                 totalInvestment,
                 totalFees,
                 totalShares,
                 currentValue: totalShares * price
             });
-        } else if (holidayHandling === 'next' && 
-                   lastProcessedMonth !== currentMonth && 
-                   selectedDays.some(day => day < dayOfMonth)) {
-            // 如果是順延模式，且這個月還沒有處理過投資
-            const dayIndex = selectedDays.findIndex(day => day <= dayOfMonth);
-            if (dayIndex !== -1) {
-                const investment = monthlyInvestment / selectedDays.length; // 平均分配到每個選擇的日期
-                const fee = investment * feeRate;
-                const actualInvestment = investment - fee;
-                const shares = actualInvestment / price;
 
-                totalInvestment += investment;
-                totalFees += fee;
-                totalShares += shares;
-                lastProcessedMonth = currentMonth;
-
-                monthlyResults.push({
-                    date,
-                    price,
-                    investment,
-                    shares,
-                    fee,
-                    totalInvestment,
-                    totalFees,
-                    totalShares,
-                    currentValue: totalShares * price
-                });
-            }
+            // 從待處理清單中移除已投資的日期
+            pendingDays = pendingDays.filter(day => !investDays.includes(day));
         }
     });
 
@@ -518,4 +513,4 @@ document.getElementById('calculateBtn').addEventListener('click', function(e) {
     
     // 執行計算
     calculatePortfolioPerformance();
-});
+}); 
